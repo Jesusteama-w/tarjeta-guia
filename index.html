@@ -1,0 +1,328 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Tarjeta Guía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#EEF3EE; --surface:#FFFFFF; --surface-2:#F5F8F4; --ink:#14261C; --muted:#4B5F53; --line:#D3DED5;
+  --pine:#1F4D3A; --pine-ink:#1F4D3A; --sun:#F2B632; --clay-ink:#A33A2A;
+  --hero:#1F4D3A; --hero-ink:#F3F7F2; --hero-muted:#BFD5C6;
+  --done:#2F7D4F; --doing:#B7801A; --todo:#8A9A90;
+  --display:"Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1813; --surface:#15231B; --surface-2:#1A2B21; --ink:#E4EEE7; --muted:#9DB2A5; --line:#2A3D32;
+    --pine-ink:#8ED0AB; --clay-ink:#EE9181; --hero:#12301F; --hero-ink:#EEF5F0; --hero-muted:#A9C7B4;
+    --done:#6CC894; --doing:#F2C14E; --todo:#6F8277;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1813; --surface:#15231B; --surface-2:#1A2B21; --ink:#E4EEE7; --muted:#9DB2A5; --line:#2A3D32;
+  --pine-ink:#8ED0AB; --clay-ink:#EE9181; --hero:#12301F; --hero-ink:#EEF5F0; --hero-muted:#A9C7B4;
+  --done:#6CC894; --doing:#F2C14E; --todo:#6F8277;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-inline:16px}
+.wrap{max-width:980px;margin:0 auto;padding-block:14px 48px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--pine-ink)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:.5em;border:0;border-radius:999px;padding:.55em 1.1em;font-weight:700;cursor:pointer;text-decoration:none;background:var(--sun);color:#1C1606;font-size:.95rem}
+.btn.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+input,textarea{border:2px solid var(--line);border-radius:10px;padding:.45em .65em;background:var(--surface-2);width:100%}
+
+/* hero */
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:26px;padding:clamp(20px,4vw,34px);display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.ring{width:150px;height:150px}
+.ring circle{fill:none;stroke-width:14}
+.ring .bgc{stroke:rgba(255,255,255,.14)}
+.ring .fg{stroke:var(--sun);stroke-linecap:round;transition:stroke-dashoffset .5s}
+.ring text{fill:var(--hero-ink);font-family:var(--display);font-weight:800}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem)}
+.hero h1 span{color:var(--sun)}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.who label{display:grid;gap:2px;font-size:.8rem;color:var(--hero-muted);font-weight:700}
+.who input{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--hero-ink)}
+.counts{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:.92rem;color:var(--hero-muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--hero-ink)}
+
+/* linked */
+.linked{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.lk{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:8px;align-content:start}
+.lk h3{font-size:1.15rem}
+.lk .meta{font-size:.9rem;color:var(--muted)}
+.bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:.2em .7em;border-radius:999px;width:max-content}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.p-done{color:var(--done);background:color-mix(in srgb,var(--done) 14%,transparent)}
+.p-doing{color:var(--doing);background:color-mix(in srgb,var(--doing) 16%,transparent)}
+.p-todo{color:var(--todo);background:color-mix(in srgb,var(--todo) 16%,transparent)}
+
+/* toolbar */
+.tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:30px 0 12px}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:999px;padding:.35em .9em;font-weight:700;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--pine);color:#fff}
+
+/* sections */
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:20px;margin-top:12px;overflow:hidden}
+.sec summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 18px}
+.sec summary::-webkit-details-marker{display:none}
+.sec .rn{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--clay-ink);min-width:2.4em}
+.sec h2{font-size:1.25rem}
+.sec .sbar{display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums;font-size:.9rem;color:var(--muted)}
+.sec .sbar .bar{width:90px}
+.items{border-top:1px solid var(--line)}
+.item{display:grid;grid-template-columns:2.2em 1fr;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .num{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--muted)}
+.item .txt{font-weight:700}
+.item .body{display:grid;gap:8px}
+.ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{border:0;cursor:pointer}
+.ctrls input[type=date]{width:auto}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:.25em .6em;cursor:pointer}
+.opt input{width:auto;margin:0}
+.note{min-height:38px;resize:vertical;font-size:.92rem}
+.link{font-size:.9rem;font-weight:700}
+.reads{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.reads .opt{font-size:.85rem}
+.item[data-s="hecho"] .txt{color:var(--muted)}
+
+/* backup */
+.backup{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:28px;display:grid;gap:10px}
+.backup textarea{min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:.8rem}
+.msg{font-weight:700;color:var(--done);min-height:1.3em}
+footer{margin-top:28px;color:var(--muted);font-size:.88rem}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;justify-items:start}
+  .linked{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .who{grid-template-columns:1fr}
+  .sec summary{grid-template-columns:auto 1fr}
+  .sec .sbar{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <svg class="ring" viewBox="0 0 150 150" aria-hidden="true">
+      <circle class="bgc" cx="75" cy="75" r="62"></circle>
+      <circle class="fg" id="ringFg" cx="75" cy="75" r="62" transform="rotate(-90 75 75)" stroke-dasharray="389.6" stroke-dashoffset="389.6"></circle>
+      <text id="ringTxt" x="75" y="84" text-anchor="middle" font-size="32">0%</text>
+    </svg>
+    <div>
+      <p class="eyebrow" style="color:var(--hero-muted)">Club de Conquistadores · Tarjeta de clase</p>
+      <h1>Mi tarjeta <span>Guía</span></h1>
+      <div class="who">
+        <label for="nombre">Nombre<input id="nombre" type="text" placeholder="Tu nombre"></label>
+        <label for="club">Club<input id="club" type="text" placeholder="Nombre del club"></label>
+      </div>
+      <div class="counts" id="counts"></div>
+    </div>
+  </header>
+
+  <div class="linked" id="linked"></div>
+
+  <div class="tools">
+    <div class="seg" role="group" aria-label="Filtrar requisitos" id="filter">
+      <button type="button" data-f="todos" aria-pressed="true">Todos</button>
+      <button type="button" data-f="pend" aria-pressed="false">Pendientes</button>
+      <button type="button" data-f="curso" aria-pressed="false">En curso</button>
+      <button type="button" data-f="hecho" aria-pressed="false">Completos</button>
+    </div>
+    <span class="eyebrow">Tocá el estado para cambiarlo</span>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="backup">
+    <h3>Copia de seguridad</h3>
+    <p style="color:var(--muted);font-size:.92rem">Tu progreso se guarda en este navegador. Para pasarlo a otro dispositivo, copiá el código y pegalo allá en este mismo cuadro.</p>
+    <textarea id="bk" placeholder="Pegá acá un código de respaldo para restaurarlo"></textarea>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" type="button" id="bkCopy">Copiar mi código</button>
+      <button class="btn ghost" type="button" id="bkLoad">Restaurar desde el código pegado</button>
+    </div>
+    <p class="msg" id="bkMsg" role="status"></p>
+  </div>
+
+  <footer>Contenido según la tarjeta de clase Guía (División Sudamericana). El instructor firma cada requisito en la tarjeta física.</footer>
+</div>
+
+<script>
+/* Requisitos de la tarjeta. o = opciones (elegir), pick = cuántas se piden */
+const SECS=[
+ {id:'I',t:'Generales',it:[
+  'Tener, mínimo, 15 años de edad.',
+  'Ser miembro activo del Club de Conquistadores.',
+  'Memorizar y explicar el Voto de Fidelidad a la Biblia.',
+  'Leer el libro del Club de Lectura Juvenil del año en curso y resumirlo en una página.',
+  'Leer un libro sobre la historia de la Iglesia Adventista, de manera especial para la realidad de su país.',
+  'Leer el libro Nuestra Herencia.']},
+ {id:'II',t:'Descubrimiento espiritual',it:[
+  {x:'Memorizar y demostrar su conocimiento:',o:['El mensaje de los 3 ángeles (Ap 14:6-12)','Las 7 iglesias del Apocalipsis','Piedras preciosas: los 12 fundamentos de la Ciudad Santa'],all:1},
+  {x:'Memorizar y explicar los siguientes versículos:',o:['1 Cor. 13','2 Crón. 7:14','Apoc. 22:18-20','2 Tim. 4:6-7','Rom. 8:38-39','Mateo 6:33-34'],all:1},
+  'Describir los dones espirituales mencionados en los escritos de Pablo, y para qué la iglesia recibe estos dones (Corintios, Efesios, Filipenses).',
+  'Estudiar la estructura y servicio del santuario en el Antiguo Testamento y relacionarlo con el ministerio personal de Jesús y la cruz.',
+  'Leer y resumir tres historias de pioneros adventistas. Contarlas en la reunión del club, en el Culto Joven o en Escuela Sabática.',
+  {x:'Lectura bíblica.',reads:['Hch 9:1-31','Hch 9:32-43','Hch 10','Hch 11','Hch 12','Hch 13','Hch 14','Hch 16','Hch 17:1-15','Hch 17:16-34','Hch 18','Hch 19:1-22','Hch 19:23-41','Hch 20','Hch 21:17-40; 22:1-16','Hch 23','Hch 24','Hch 25','Hch 26','Hch 27','Hch 28','Rm 12','Rm 13, 14','1 Co 13','2 Co 5:11-21','2 Co 11:16-33; 12:1-10','Gl 5:16-26; 6:1-10','Ef 5:1-21','Ef 6','Fp 4','Cl 3','1 Ts 4:13-18','1 Ts 5','2 Ts 2, 3','1 Tm 4:6-16','1 Tm 5:1-16; 6:11-21','2 Tm 2','2 Tm 3','Fm','Hb 11','Tg 1','Tg 3','Tg 5:7-20','1 Pe 1','1 Pe 5:1-11','2 Pe 3','1 Jn 2','1 Jn 3','1 Jn 4','1 Jn 5','Jd 1:17-25','Ap 1','Ap 2','Ap 3','Ap 7:9-17','Ap 12','Ap 13','Ap 14','Ap 19','Ap 20','Ap 21']}]},
+ {id:'III',t:'Sirviendo a los demás',it:[
+  {x:'Ayudar a organizar y participar de una de las siguientes actividades:',o:['Visita de cortesía a una persona enferma','Adoptar una persona o familia en necesidad y ayudarlos','Otro proyecto aprobado por su líder'],pick:1},
+  'Considerar con su unidad los métodos de evangelismo personal y poner algunos principios en práctica.']},
+ {id:'IV',t:'Desarrollo de la amistad',it:[
+  {x:'Asistir a una conferencia o clase y examinar sus actitudes en relación a dos de los siguientes temas:',o:['La importancia de escoger una profesión','Relacionamiento con los padres','La elección de la persona correcta para enamorar','El plan de Dios para el sexo'],pick:2}]},
+ {id:'V',t:'Salud y aptitud física',it:[
+  {x:'Hacer una presentación, para alumnos de enseñanza básica, sobre los ocho remedios naturales dados por Dios.',link:['remedios.html','Abrir la presentación de los 8 remedios →']},
+  {x:'Completar una de las siguientes actividades:',o:['Escribir una poesía o artículo sobre salud para una revista, boletín o periódico de la iglesia','Organizar y participar en una carrera (cross country) o similar, presentando antes el programa de entrenamiento','Leer las páginas 102-125 de La Temperancia (E. de White) y preparar un trabajo con 10 textos','Completar la especialidad de Nutrición o liderar un grupo para la de Aptitud Física'],pick:1}]},
+ {id:'VI',t:'Organización y liderazgo',it:[
+  'Preparar un organigrama de la estructura administrativa de la Iglesia Adventista en su División.',
+  {x:'Participar de uno de los siguientes ítems:',o:['Curso para consejeros','Convención de liderazgo de la Asociación o Misión','Seis reuniones de la directiva de su club'],pick:1},
+  {x:'Planear y enseñar, por lo menos, dos requisitos de una especialidad para un grupo de Conquistadores.',esp:1}]},
+ {id:'VII',t:'Estudio de la naturaleza',it:[
+  'Leer la infancia de Jesús en el capítulo 7 de El Deseado de Todas las Gentes, demostrar la importancia del estudio de la naturaleza en la educación y el ministerio de Jesús, y presentar a un grupo las lecciones encontradas.',
+  {x:'Completar una de las siguientes especialidades:',o:['Ecología I','Conservación Ambiental'],pick:1}]},
+ {id:'VIII',t:'Arte de acampar',it:[
+  'Participar con su unidad de un campamento con estructura de pionería, planeando lo que se debe llevar y lo que sucederá.',
+  'Planificar y cocinar tres comidas al aire libre.',
+  'Construir y utilizar un mueble de acampar en tamaño real, con nudos y amarras.',
+  {x:'Completar una especialidad, no realizada antes, que cuente para una de estas maestrías:',o:['Acuática','Deportes','Actividades recreativas','Vida campestre'],pick:1,esp:1}]},
+ {id:'IX',t:'Estilo de vida',it:[
+  {x:'Completar una especialidad, no realizada antes, en una de las siguientes áreas:',o:['Actividades recreativas','Salud y Ciencias','Habilidades domésticas','Actividades profesionales'],pick:1,esp:1}]},
+ {id:'AV',t:'Clase avanzada · Guía de Exploración',it:[
+  'Completar la especialidad de Mayordomía.',
+  'Leer el libro El Mayor Discurso de Cristo y escribir una página sobre el efecto de la lectura en su vida.',
+  {x:'Cumplir uno de los siguientes ítems:',o:['Traer dos amigos a dos reuniones diferentes de la iglesia','Planificar y participar de, mínimo, cuatro domingos de una serie de evangelismo joven'],pick:1},
+  'Escribir una página o presentar una charla sobre cómo influenciar amigos para Cristo.',
+  {x:'Observar por dos meses el trabajo de los diáconos y presentar un informe sobre:',o:['Cuidado de las pertenencias de la iglesia','Ceremonia de lavamiento de los pies','Ceremonia de bautismo','Recojo de los diezmos y ofrendas'],all:1},
+  'Completar la maestría en Vida campestre.',
+  'Diseñar tres tipos diferentes de abrigo, explicar su uso y utilizar uno de ellos en un campamento.',
+  {x:'Asistir a un seminario o presentar una charla sobre dos de los siguientes temas:',o:['Aborto','Bullying','Violencia','Drogas','Enfermedades de transmisión sexual'],pick:2},
+  'Completar la especialidad de Liderazgo al aire libre.',
+  'Completar la especialidad de Presupuesto familiar.']}
+];
+
+/* Estado inicial con lo que ya está en marcha */
+const DEFAULTS={
+  'V-1':{s:'curso',n:'Presentación web lista (remedios.html). Falta presentarla a los chicos y completar el registro.'},
+  'VII-2':{s:'curso',o:[0],n:'Ecología: monitoreo del AQI de Lima por 30 días (30/08 al 28/09, tarea automática diaria) + trabajo de bichos (hecho).'}
+};
+const KEY='tarjeta-guia-v1';
+const $=s=>document.querySelector(s);
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(ST)); }catch(e){} }
+let ST=load(); ST.items=ST.items||{}; ST.reads=ST.reads||{};
+for(const k in DEFAULTS) if(!ST.items[k]) ST.items[k]=JSON.parse(JSON.stringify(DEFAULTS[k]));
+let FILTER='todos';
+
+const LABEL={pend:'Pendiente',curso:'En curso',hecho:'Completo'};
+const CLS={pend:'p-todo',curso:'p-doing',hecho:'p-done'};
+const NEXT={pend:'curso',curso:'hecho',hecho:'pend'};
+const L='abcdefgh';
+const norm=x=>typeof x==='string'?{x}:x;
+const get=id=>ST.items[id]||(ST.items[id]={s:'pend'});
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function render(){
+  let html='';
+  SECS.forEach(sec=>{
+    const ids=sec.it.map((_,i)=>`${sec.id}-${i+1}`);
+    const done=ids.filter(id=>get(id).s==='hecho').length;
+    const rows=sec.it.map((raw,i)=>{
+      const r=norm(raw), id=ids[i], v=get(id), s=v.s||'pend';
+      if(FILTER!=='todos' && FILTER!==s) return '';
+      let extra='';
+      if(r.o) extra+=`<div class="opts">${r.o.map((o,j)=>`<label class="opt"><input type="checkbox" data-id="${id}" data-o="${j}" ${(v.o||[]).includes(j)?'checked':''}> ${L[j]}) ${esc(o)}</label>`).join('')}</div>${r.pick?`<span class="eyebrow">Elegir ${r.pick===1?'una':'dos'}</span>`:''}`;
+      if(r.reads){ const n=r.reads.filter((_,j)=>ST.reads[j]).length;
+        extra+=`<details><summary class="link" style="cursor:pointer">${n} de ${r.reads.length} lecturas marcadas</summary><div class="reads" style="margin-top:8px">${r.reads.map((t,j)=>`<label class="opt"><input type="checkbox" data-read="${j}" ${ST.reads[j]?'checked':''}> ${t}</label>`).join('')}</div></details>`; }
+      if(r.esp) extra+=`<input type="text" data-id="${id}" data-f="e" value="${esc(v.e)}" placeholder="Especialidad elegida">`;
+      if(r.link) extra+=`<a class="link" href="${r.link[0]}">${r.link[1]}</a>`;
+      return `<div class="item" data-s="${s}"><span class="num">${i+1}</span><div class="body">
+        <p class="txt">${esc(r.x)}</p>${extra}
+        <div class="ctrls"><button type="button" class="pill status ${CLS[s]}" data-id="${id}" data-st>${LABEL[s]}</button>
+        <input type="date" data-id="${id}" data-f="d" value="${esc(v.d)}" aria-label="Fecha"></div>
+        <textarea class="note" data-id="${id}" data-f="n" placeholder="Notas: qué hiciste, quién firmó…" aria-label="Notas">${esc(v.n)}</textarea>
+      </div></div>`;
+    }).join('');
+    if(FILTER!=='todos' && !rows) return;
+    html+=`<details class="sec" ${(FILTER!=='todos'||ST.open?.[sec.id])?'open':''} data-sec="${sec.id}"><summary><span class="rn">${sec.id==='AV'?'★':sec.id}</span><h2>${sec.t}</h2>
+      <span class="sbar"><span class="bar"><i style="width:${done/ids.length*100}%"></i></span>${done}/${ids.length}</span></summary><div class="items">${rows}</div></details>`;
+  });
+  $('#sections').innerHTML=html||'<p style="color:var(--muted);padding:20px">No hay requisitos en este estado.</p>';
+  summary();
+}
+
+function summary(){
+  let all=[],c={pend:0,curso:0,hecho:0};
+  SECS.forEach(sec=>sec.it.forEach((_,i)=>{ if(sec.id!=='AV'){ const s=get(`${sec.id}-${i+1}`).s||'pend'; c[s]++; all.push(s);} }));
+  const pct=Math.round(c.hecho/all.length*100);
+  $('#ringFg').setAttribute('stroke-dashoffset',389.6*(1-c.hecho/all.length));
+  $('#ringTxt').textContent=pct+'%';
+  const av=SECS.find(s=>s.id==='AV').it.filter((_,i)=>get(`AV-${i+1}`).s==='hecho').length;
+  $('#counts').innerHTML=`<span><b>${c.hecho}</b> completos</span><span><b>${c.curso}</b> en curso</span><span><b>${c.pend}</b> pendientes</span><span>Avanzada: <b>${av}</b>/10</span>`;
+  linked();
+}
+
+function linked(){
+  const start=new Date('2026-08-30T00:00:00'), days=30, now=new Date();
+  const d=Math.floor((now-start)/864e5)+1, n=Math.max(0,Math.min(days,d)), fin=d>days;
+  const v1=get('V-1').s;
+  $('#linked').innerHTML=`
+   <div class="lk"><span class="eyebrow">V.1 · Salud</span><h3>Presentación de los 8 remedios</h3>
+     <span class="pill ${CLS[v1]}">${LABEL[v1]}</span>
+     <p class="meta">Página para presentar a los chicos, con quiz, desafío de 7 días y registro.</p>
+     <a class="link" href="remedios.html">Abrir presentación →</a></div>
+   <div class="lk"><span class="eyebrow">VII.2 · Ecología</span><h3>Monitoreo del aire (AQI Lima)</h3>
+     <span class="pill ${fin?'p-done':'p-doing'}">${fin?'30 días completos':'Día '+n+' de '+days}</span>
+     <div class="bar"><i style="width:${n/days*100}%"></i></div>
+     <p class="meta">Registro diario automático del 30/08 al 28/09. Al terminar llega el cuadro final (Excel + gráfico).</p></div>
+   <div class="lk"><span class="eyebrow">VII.2 · Ecología</span><h3>Trabajo de bichos</h3>
+     <span class="pill p-done">Hecho</span>
+     <p class="meta">Ya realizado. Anotá en VII.2 la fecha en que lo firmó el instructor.</p></div>`;
+}
+
+/* eventos */
+$('#sections').addEventListener('click',e=>{
+  const b=e.target.closest('[data-st]'); if(!b) return;
+  const v=get(b.dataset.id); v.s=NEXT[v.s||'pend']; if(v.s==='hecho'&&!v.d) v.d=new Date().toISOString().slice(0,10);
+  save(); render();
+});
+$('#sections').addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.read!==undefined){ ST.reads[t.dataset.read]=t.checked; save(); render(); return; }
+  if(t.dataset.o!==undefined){ const v=get(t.dataset.id); const j=+t.dataset.o; v.o=(v.o||[]).filter(x=>x!==j); if(t.checked) v.o.push(j); if((v.s||'pend')==='pend') v.s='curso'; save(); render(); return; }
+  if(t.dataset.f){ get(t.dataset.id)[t.dataset.f]=t.value; save(); }
+});
+$('#sections').addEventListener('input',e=>{ const t=e.target; if(t.tagName==='TEXTAREA'&&t.dataset.f){ get(t.dataset.id).n=t.value; save(); } });
+$('#sections').addEventListener('toggle',e=>{ const d=e.target; if(d.dataset?.sec && FILTER==='todos'){ ST.open=ST.open||{}; ST.open[d.dataset.sec]=d.open; save(); } },true);
+$('#filter').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; FILTER=b.dataset.f; document.querySelectorAll('#filter button').forEach(x=>x.setAttribute('aria-pressed',x===b)); render(); });
+['nombre','club'].forEach(k=>{ $('#'+k).value=ST[k]||''; $('#'+k).addEventListener('input',e=>{ST[k]=e.target.value;save();}); });
+
+$('#bkCopy').onclick=()=>{
+  const code=btoa(unescape(encodeURIComponent(JSON.stringify(ST)))); $('#bk').value=code;
+  const ok=()=>$('#bkMsg').textContent='Código copiado. Guardalo en un lugar seguro.';
+  const fail=()=>{ $('#bk').select(); $('#bkMsg').textContent='Seleccioné el código: copialo con Ctrl+C o mantené presionado.'; };
+  try{ navigator.clipboard.writeText(code).then(ok,fail); }catch(e){ fail(); }
+};
+$('#bkLoad').onclick=()=>{
+  try{ const o=JSON.parse(decodeURIComponent(escape(atob($('#bk').value.trim())))); if(!o||typeof o!=='object'||!o.items) throw 0;
+    ST=o; ST.reads=ST.reads||{}; save(); ['nombre','club'].forEach(k=>$('#'+k).value=ST[k]||''); render(); $('#bkMsg').textContent='Progreso restaurado.'; }
+  catch(e){ $('#bkMsg').textContent='Ese código no es válido. Copialo completo desde el otro dispositivo y probá de nuevo.'; }
+};
+render();
+</script>
