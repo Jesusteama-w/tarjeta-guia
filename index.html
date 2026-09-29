@@ -288,9 +288,9 @@ function linked(){
      <p class="meta">Página para presentar a los chicos, con quiz, desafío de 7 días y registro.</p>
      <a class="link" href="remedios.html">Abrir presentación →</a></div>
    <div class="lk"><span class="eyebrow">VII.2 · Ecología</span><h3>Monitoreo del aire (AQI Lima)</h3>
-     <span class="pill p-doing">${n>=days?'30 días · falta el cuadro final':'Día '+n+' de '+days}</span>
+     <span class="pill ${n>=days?'p-done':'p-doing'}">${n>=days?'30 días completos · cuadro entregado':'Día '+n+' de '+days}</span>
      <div class="bar"><i style="width:${n/days*100}%"></i></div>
-     <p class="meta">${n>=days?'Al 28/09 la ejecución final quedó esperando tu aprobación. Aprobala en la sesión “⚡ Monitoreo diario AQI Lima” para recibir el Excel y el gráfico.':'Registro diario automático del 30/08 al 28/09. Al terminar llega el cuadro final (Excel + gráfico).'}</p></div>
+     <p class="meta">${n>=days?'Monitoreo del 30/08 al 28/09 terminado. El cuadro final (Excel + gráfico) está en la sesión “⚡ Monitoreo diario AQI Lima” del 28/09.':'Registro diario automático del 30/08 al 28/09. Al terminar llega el cuadro final (Excel + gráfico).'}</p></div>
    <div class="lk"><span class="eyebrow">VII.2 · Ecología</span><h3>Trabajo de bichos</h3>
      <span class="pill p-done">Hecho</span>
      <p class="meta">Ya realizado. Anotá en VII.2 la fecha en que lo firmó el instructor.</p></div>`;
